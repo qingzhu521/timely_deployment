@@ -3,7 +3,7 @@
 help deploy your timely binary file  
 - conf  
   -- hosts  (your hosts file)
-  -- setting.json  (your parament)
+  -- setting.json  (your program's parameters)
 - binary file
 - run-timely.sh
 - run.sh
