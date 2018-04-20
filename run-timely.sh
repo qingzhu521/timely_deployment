@@ -75,3 +75,8 @@ for h in $host_list; do
         break;
     fi
 done
+
+wait
+echo "Completed, wait 5s for safe termination"
+sleep 5
+./kill-timely.sh ${bin} ${num_host}

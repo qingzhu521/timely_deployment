@@ -8,7 +8,7 @@ Usage(){
     echo "to every worker"
 }
 
-ROJECT_HOME=~/timedf/
+PROJECT_HOME=~/timedf/
 HOSTFILE=conf/hosts
 BIN=$2
 
