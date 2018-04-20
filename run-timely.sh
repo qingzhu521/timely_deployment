@@ -48,7 +48,7 @@ fi
 echo "Name of binary: ${bin}"
 echo "Number of Hosts: ${num_host}"
 
-PYCHOSSER=$(`which python`)
+PYCHOSSER=`which python`
 if [ -z "$PYCHOSSER" ]; then
     PYCHOSSER=`which python3`
     if [ -z "$PYCHOSSER" ]; then
@@ -58,18 +58,17 @@ fi
 host_list=$($PYCHOSSER hostHelper.py)
 
 
-for h in $host_list; do
-    echo ${h}
-    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
-    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
-    scp $bin ${h}:${PROJECT_HOME}/ && \
-    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
-done
+#for h in $host_list; do
+#    echo ${h}
+#    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
+#    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
+#    scp $bin ${h}:${PROJECT_HOME}/ && \
+#    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
+#done
 
 i=0
 for h in $host_list; do
-    echo "${h}"
-    echo "${PROJECT_HOME}/$bin ${program_args} -h ${HOSTFILE} -w 1 -n ${num_host} -p $i "
+    echo "${h} ${PROJECT_HOME}/$bin ${program_args} -h ${HOSTFILE} -w ${workers} -n ${num_host} -p $i "
     ssh ${h} "${PROJECT_HOME}/$bin ${program_args} -h ${PROJECT_HOME}/${HOSTFILE} -w ${workers} -n ${num_host} -p ${i} >> ${PROJECT_HOME}/$bin.log 2>${PROJECT_HOME}/err" &
     i=$(($i+1))
     if [ "$i" -eq "${num_host}" ]; then

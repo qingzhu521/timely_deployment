@@ -48,7 +48,7 @@ echo "Number of Hosts: ${num_host}"
 #######################################################################################
 #  python chooser
 #######################################################################################
-PYCHOSSER=$(`which python`)
+PYCHOSSER=`which python`
 if [ -z "$PYCHOSSER" ]; then
     PYCHOSSER=`which python3`
     if [ -z "$PYCHOSSER" ]; then
@@ -59,13 +59,13 @@ fi
 
 host_list=$($PYCHOSSER hostHelper.py)
 
-for h in ${host_list}; do
-    echo "$h start to processing"
-    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
-    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
-    scp $bin ${h}:${PROJECT_HOME}/ && \
-    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
-done
+#for h in ${host_list}; do
+#    echo "$h start to processing"
+#    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
+#    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
+#    scp $bin ${h}:${PROJECT_HOME}/ && \
+#    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
+#done
 
 program_args=`$PYCHOSSER paraHelper.py`
 echo ${program_args}
