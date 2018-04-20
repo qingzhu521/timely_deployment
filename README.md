@@ -21,3 +21,4 @@ Menu
 
 >Pay attention：  
 > + if you want to set the number of workers per hosts, you have to keep configure "workers" 
+> + before you do anything, chmod a+x for every shell script
