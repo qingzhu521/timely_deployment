@@ -6,7 +6,9 @@
 #
 #######################################################################################
 USAGE="run-timely -b [Binary file] -n [Number of hosts]"
-
+Usage(){
+    echo USAGE
+}
 #######################################################################################
 # fixed attribute
 #######################################################################################
@@ -35,9 +37,27 @@ while getopts "b:n:" options;do
     esac
 done
 
+if [ -z "${num_host}" -o -z "${bin}" ]; then
+    Usage
+    exit 1
+fi
+
 echo "Name of binary: ${bin}"
 echo "Number of Hosts: ${num_host}"
-host_list=$(python3 hostHelper.py)
+
+#######################################################################################
+#  python chooser
+#######################################################################################
+PYCHOSSER=$(`which python`)
+if [ -z "$PYCHOSSER" ]; then
+    PYCHOSSER=`which python3`
+    if [ -z "$PYCHOSSER" ]; then
+        echo "No Proper Python"
+    fi
+fi
+
+
+host_list=$($PYCHOSSER hostHelper.py)
 
 for h in ${host_list}; do
     echo "$h start to processing"
@@ -47,7 +67,7 @@ for h in ${host_list}; do
     ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
 done
 
-program_args=`python3 paraHelper.py`
+program_args=`$PYCHOSSER paraHelper.py`
 echo ${program_args}
 
 if [ -z "${bin}" -o -z "${num_host}" ]; then
