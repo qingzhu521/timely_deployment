@@ -10,6 +10,14 @@ if __name__ == "__main__":
             if type(item) != dict:
                 parastr = parastr + str(item) + " "
             else:
+                last=""
                 for key in item:
-                    parastr = parastr + "-" + str(key) + " " + str(item[key]) + " "
+                    if key == "workers":
+                        last = "-w" + " " + str(item[key]) + " "
+                    else:
+                        parastr = parastr + "-" + str(key) + " " + str(item[key]) + " "
+                if last != "":
+                    parastr += last
+                else:
+                    parastr += "-w 1 "
         print(parastr)

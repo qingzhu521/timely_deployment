@@ -5,8 +5,11 @@
 #as follow
 #
 #######################################################################################
-USAGE="run-timely -b [Binary file] -n [Number of hosts] [program args]"
+USAGE="run-timely -b [Binary file] -n [Number of hosts] -w [Number of workers per host] [program args]"
 
+Usage(){
+    echo $USAGE
+}
 #######################################################################################
 # fixed attribute
 #######################################################################################
@@ -19,22 +22,28 @@ HOSTFILE=conf/hosts
 #######################################################################################
 parameters="$@"
 
+program_args="${@:7}"
 
-program_args="${@:5}"
-echo ${program_args}
-
-while getopts "b:n:" options;do
+while getopts "b:n:w:" options;do
     case $options in
         n)
-            num_host=$OPTARG
+            num_host=${OPTARG}
             ;;
         b)
             bin=${OPTARG}
+            ;;
+        w) 
+            workers=${OPTARG}
             ;;
         ?)
             ;;
     esac
 done
+
+if [ -z "${bin}"  -o  -z "${workers}" -o -z "${num_host}" ]; then
+    Usage
+    exit 1
+fi
 
 echo "Name of binary: ${bin}"
 echo "Number of Hosts: ${num_host}"
@@ -54,7 +63,7 @@ i=0
 for h in $host_list; do
     echo "${h}"
     echo "${PROJECT_HOME}/$bin ${program_args} -h ${HOSTFILE} -w 1 -n ${num_host} -p $i "
-    ssh ${h} "${PROJECT_HOME}/$bin ${program_args} -h ${PROJECT_HOME}/${HOSTFILE} -w 1 -n ${num_host} -p ${i} >> ${PROJECT_HOME}/$bin.log 2>${PROJECT_HOME}/err" &
+    ssh ${h} "${PROJECT_HOME}/$bin ${program_args} -h ${PROJECT_HOME}/${HOSTFILE} -w ${workers} -n ${num_host} -p ${i} >> ${PROJECT_HOME}/$bin.log 2>${PROJECT_HOME}/err" &
     i=$(($i+1))
     if [ "$i" -eq "${num_host}" ]; then
         break;

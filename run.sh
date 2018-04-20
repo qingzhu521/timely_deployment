@@ -37,9 +37,10 @@ done
 
 echo "Name of binary: ${bin}"
 echo "Number of Hosts: ${num_host}"
+host_list=$(python3 hostHelper.py)
 
-
-for h in $(<${HOSTFILE}); do
+for h in ${host_list}; do
+    echo "$h start to processing"
     ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
     scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
     scp $bin ${h}:${PROJECT_HOME}/ && \
@@ -49,10 +50,16 @@ done
 program_args=`python3 paraHelper.py`
 echo ${program_args}
 
+if [ -z "${bin}" -o -z "${num_host}" ]; then
+    Usage
+    exit 1
+fi
+
+
 i=0
-for h in $(<${HOSTFILE}); do
-    echo "${h} ${PROJECT_HOME}/$bin ${program_args} -h ${HOSTFILE} -w 1 -n ${num_host} -p $i "
-    ssh ${h} "${PROJECT_HOME}/$bin ${program_args} -h ${PROJECT_HOME}/${HOSTFILE} -w 1 -n ${num_host} -p $i "
+for h in ${host_list}; do
+    echo "${h} ${PROJECT_HOME}/$bin ${program_args} -h ${HOSTFILE} -n ${num_host} -p $i "
+    ssh ${h} "${PROJECT_HOME}/$bin ${program_args} -h ${PROJECT_HOME}/${HOSTFILE} -n ${num_host} -p $i >> ${PROJECT_HOME}/$bin.log 2>${PROJECT_HOME}/err" &
     i=$(($i+1))
     if [ "$i" -eq "${num_host}" ]; then
         break;
