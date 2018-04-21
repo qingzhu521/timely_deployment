@@ -58,16 +58,16 @@ fi
 host_list=$($PYCHOSSER hostHelper.py)
 
 
-#for h in $host_list; do
-#    if [ -z "$h" ]; then
-#        break;
-#    fi
-#    echo ${h}
-#    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
-#    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
-#    scp $bin ${h}:${PROJECT_HOME}/ && \
-#    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
-#done
+for h in $host_list; do
+    if [ -z "$h" ]; then
+        break;
+    fi
+    echo ${h}
+    ssh ${h} "mkdir -p ${PROJECT_HOME}/conf" && \
+    scp $HOSTFILE ${h}:${PROJECT_HOME}/conf/ && \
+    scp $bin ${h}:${PROJECT_HOME}/ && \
+    ssh ${h} "chmod 774 ${PROJECT_HOME}/$bin"
+done
 
 i=0
 for h in $host_list; do
