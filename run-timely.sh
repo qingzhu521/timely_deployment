@@ -5,7 +5,7 @@
 #as follow
 #
 #######################################################################################
-USAGE="run-timely -b [Binary file] -n [Number of hosts] -w [Number of workers per host] [program args]"
+USAGE="run-timely -b [Binary file] -n [Number of hosts] -w [Number of workers per host] [-d option] [program args]"
 
 Usage(){
     echo $USAGE
