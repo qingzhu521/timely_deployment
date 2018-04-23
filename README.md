@@ -15,8 +15,8 @@ Menu
 
 
 >Usage: 
->+ ./run-timely.sh -b [binary file name] -n [number of hosts] -w [number of workers per host] {your program arguments}  
->+ ./run.sh -b [binary file name] -n [number of hosts]  
+>+ ./run-timely.sh -b [binary file name] -n [number of hosts] -w [number of workers per host] -d {if you add it your program will distribute to other workers} {your program arguments}  
+>+ ./run.sh -b [binary file name] -n [number of hosts]  -d {if you add it your program will distribute to other workers}
 >+ ./kill-timely.sh [binary file name] [number of hosts] // if the program not terminate smoothly, you'd better do this job.
 
 >Pay attention：  
