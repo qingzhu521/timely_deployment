@@ -63,7 +63,7 @@ fi
 host_list=$($PYCHOSSER hostHelper.py)
 
 if [ "$distribution" == "TRUE" ]; then
-    echo "distrin DDDDDDDDDDDDDDDDDDDd"
+    echo "distributing "
     for h in ${host_list}; do
         if [ -z "$h" ]; then
             break;
